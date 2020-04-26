@@ -3,6 +3,10 @@
 sources = [
 	'instruments/instrument.cpp',
 	'instruments/instrument_dumb.cpp',
+	'instruments/instrument_vibrato.cpp',
+	'instruments/instrument_chowning.cpp',
+	'instruments/audio.cpp',
+	'instruments/Seno.cpp',
 	'synth/envelope_adsr.cpp',
 	'synth/midi_score.cpp',
 	'synth/multinote_instr.cpp',
@@ -11,6 +15,7 @@ sources = [
 	'effects/effect.cpp',
 	'effects/tremolo.cpp',
 	'effects/vibrato.cpp',
+	'effects/distortion.cpp',
 ]
 
 executable(
