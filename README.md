@@ -309,9 +309,31 @@ Use el programa `synth` para generar canciones a partir de su partitura MIDI. Co
 
 - En este triste arreglo, la pista 1 corresponde al instrumento solista (puede ser un piano, flautas,
   violines, etc.), y la 2 al bajo (bajo eléctrico, contrabajo, tuba, etc.).
+  
+  Hemos decidido generar para la pista 1 el piano mencionado anteriormente y, para la pista dos, un bajo.
+  
+    ```
+  ORC_TORYSTORY.ORC
+  #Piano
+  1   InstrumentChowning  ADSR_A=0.01; ADSR_D=0.7; ADSR_S=0.0; ADSR_R=1.5; I=1; N2=3;
+  #Baix
+  2   InstrumentChowning  ADSR_A=0.01; ADSR_D=0.0; ADSR_S=0.3; ADSR_R=0.4; I=1.3; N2= 3;
+  
+  ```
+  
 - Coloque el resultado, junto con los ficheros necesarios para generarlo, en el directorio `work/music`.
+
+El resultado final consiste en un .wav con el nombre de **ToyStory.wav**
+ 
 - Indique, a continuación, la orden necesaria para generar la señal (suponiendo que todos los archivos
   necesarios están en directorio indicado).
+  
+  Suponiendo que nos encontramos dentro del directorio `work/music`, la orden para generar la sñal es:
+  
+  ```
+  synth orc_ToyStory.orc ToyStory_A_Friend_in_me.sco ToyStory.wav
+  ```
+ 
 
 También puede orquestar otros temas más complejos, como la banda sonora de *Hawaii5-0* o el villacinco de
 John Lennon *Happy Xmas (War Is Over)* (fichero `The_Christmas_Song_Lennon.sco`), o cualquier otra canción
