@@ -338,7 +338,88 @@ El resultado final consiste en un .wav con el nombre de **ToyStory.wav**
 También puede orquestar otros temas más complejos, como la banda sonora de *Hawaii5-0* o el villacinco de
 John Lennon *Happy Xmas (War Is Over)* (fichero `The_Christmas_Song_Lennon.sco`), o cualquier otra canción
 de su agrado o composición. Se valorará la riqueza instrumental, su modelado y el resultado final.
+
+Hemos decidido sintetizar la canción de Hawaii-5.0; pero durante el rpcoeso, nos dimos cuenta que no eramos capazes de sintetizar a la perfección los instrumentos que venian especificados en el .sco. Por lo tanto, nuestra versión esta hecha con el mismo numero de instrumentos, pero de solamente 3 tipos: pianos, bajos y clarinetes. Hemos modificado los parámetros de sus envolventes ADSR para que, por ejemplo, no todos los pianos sean iguales y tengan pequeñas diferencias.
+
+A su vez, hemos sido incapazes de sintetizar el roll i kick que se indicn en el inicio de la canción; así pues, esta, empieza directamente con el iano y bajo tocando la melodia. Por otro lado, había efectos como el hat, snare... que no hemos sabido parametrizarlos únicamente con su envolvente adsr y ls parámetros I, N1 y N2. Por lo tanto, hemos optado por incorporarlos mediante audios ya construidos. Estos se encuentran en la carpeta `work/track` y,para poder incorporarlos, hemos creado una nueva clase llamada `Audio` como si de un instrumento se tratase y, por lo tanto, sigue la misma estructura de: constructor, command y synthetise:
+
+```cpp
+#include <iostream>
+#include <math.h>
+#include "audio.h"
+#include "keyvalue.h"
+#include "sndfile.h"
+
+#include <stdlib.h>
+
+using namespace upc;
+using namespace std;
+
+Audio::Audio(const std::string &param) 
+  : adsr(SamplingRate, param) {
+  bActive = false;
+  x.resize(BSIZE);
+
+  KeyValue kv(param);
+  
+  file_name = kv("file");
+  inputFile = sf_open(file_name.c_str(), SFM_READ, &inputFileData);
+}
+
+
+void Audio::command(long cmd, long note, long vel) {
+    bActive = true;
+    A = vel/127.0;
+}
+
+
+const vector<float> & Audio::synthesize() {
+
+static double *content = new double[BSIZE];
+
+  reader = sf_read_double(inputFile, content, BSIZE);
+  if(reader > 0){
+    for (unsigned int i = 0; i < reader; i++) x[i] = 0.5*A*content[i];
+  }else{
+    x.assign(x.size(), 0);
+    bActive = false;
+    sf_close(inputFile);
+  }
+  
+  return x;
+}  
+  ```
+  Y a continuación se muestra su respectivo fichero .orc:
+  
+  ```
+3 Audio file=tracks/track3.wav
+4 Audio file=tracks/track4.wav
+5 Audio file=tracks/track5.wav
+6 Audio file=tracks/track6.wav
+7 Audio file=tracks/track7.wav
+#Baix
+8   InstrumentChowning  ADSR_A=0.01; ADSR_D=0.0; ADSR_S=0.3; ADSR_R=0.4; I=4; N2= 3;
+#Pianos
+9   InstrumentChowning  ADSR_A=0.01; ADSR_D=0.7; ADSR_S=0.0; ADSR_R=1.5; I=1; N2=3;
+#Baix
+10  InstrumentChowning  ADSR_A=0.01; ADSR_D=0.0; ADSR_S=0.3; ADSR_R=0.4; I=2; N2= 3;
+11  InstrumentChowning	ADSR_A=0.1; ADSR_D=0.05; ADSR_S=0.2; ADSR_R=0.2; I=5; N2= 3;
+#Altres
+12  InstrumentChowning  ADSR_A=0.2; ADSR_D=0.02; ADSR_S=0.3; ADSR_R=0.2; I=1; N2 =1.5;
+#Piano
+13  InstrumentChowning  ADSR_A=0.03; ADSR_D=0.5; ADSR_S=0.1; ADSR_R=0.15; I=2; N2 = 2.5;
+14  InstrumentChowning  ADSR_A=0.03; ADSR_D=0.5; ADSR_S=0.1; ADSR_R=0.15; I=1.3; N2 = 2.5;
+15  InstrumentChowning  ADSR_A=0.03; ADSR_D=0.5; ADSR_S=0.1; ADSR_R=0.15; I=1.3; N2 = 2.5;
+#Baixos
+16  InstrumentChowning  ADSR_A=0.03; ADSR_D=0.0; ADSR_S=0.0; ADSR_R=0.5; I=1; N2= 1.5;
+  ```
 - Coloque los ficheros generados, junto a sus ficheros `score`, `instruments` y `efffects`, en el directorio
   `work/music`.
+  El resultado final .wav se puede encontrar en `work/music` , junto a su fichero .orc y .sco.
+  
 - Indique, a continuación, la orden necesaria para generar cada una de las señales usando los distintos
   ficheros.
+  
+  Considerando que estamos situdos en el directorio `work/music`, la orden necesaria general la señal es:
+  
+  `synth Hawaii5-0.orc Hawaii5-0.sco Hawaii_Synth.wav`  
