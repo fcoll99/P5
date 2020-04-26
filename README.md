@@ -27,20 +27,22 @@ permitan visualizar el funcionamiento de la curva ADSR.
 
 * Un instrumento con una envolvente ADSR genérica, para el que se aprecie con claridad cada uno de sus
   parámetros: ataque (A), caída (D), mantenimiento (S) y liberación (R).
+  ![Instrument1](https://user-images.githubusercontent.com/61736138/80309832-9bcf6480-87d7-11ea-8ee3-9840763c71c6.PNG)
+  
 * Un instrumento *percusivo*, como una guitarra o un piano, en el que el sonido tenga un ataque rápido, no
   haya mantenimiemto y el sonido se apague lentamente.
   - Para un instrumento de este tipo, tenemos dos situaciones posibles:
     * El intérprete mantiene la nota *pulsada* hasta su completa extinción.
+    	![Instrument2](https://user-images.githubusercontent.com/61736138/80309843-af7acb00-87d7-11ea-839a-16720c9801a0.PNG)
     * El intérprete da por finalizada la nota antes de su completa extinción, iniciándose una disminución
 	  abrupta del sonido hasta su finalización.
+	  ![Instrument3](https://user-images.githubusercontent.com/61736138/80309844-b0abf800-87d7-11ea-94c8-c047c7fe0b64.PNG)
   - Debera representar en esta memoria **ambos** posibles finales de la nota.
 * Un instrumento *plano*, como los de cuerdas frotadas (violines y semejantes) o algunos de viento. En
   ellos, el ataque es relativamente rápido hasta alcanzar el nivel de mantenimiento (sin sobrecarga), y la
   liberación también es bastante rápida.
+![Instrument4](https://user-images.githubusercontent.com/61736138/80309846-b275bb80-87d7-11ea-837c-4a8f0872e0af.PNG)
 
-Para los cuatro casos, deberá incluir una gráfica en la que se visualice claramente la curva ADSR. Deberá
-añadir la información necesaria para su correcta interpretación, aunque esa información puede reducirse a
-colocar etiquetas y títulos adecuados en la propia gráfica (se valorará positivamente esta alternativa).
 
 ### Instrumentos Dumb y Seno.
 
